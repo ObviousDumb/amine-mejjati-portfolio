@@ -109,7 +109,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
-            className="relative min-h-screen flex flex-col w-full overflow-hidden bg-black"
+            className="relative min-h-screen flex flex-col w-full overflow-hidden bg-transparent"
           >
             {/* Interactive backdrop layers */}
             <ParticleSkyline />

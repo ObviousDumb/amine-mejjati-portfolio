@@ -35,7 +35,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${cinzel.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full bg-[#050505] text-[#EDEDED] flex flex-col font-sans selection:bg-amber-500/30 selection:text-amber-500">
+      <body className="min-h-full bg-transparent text-[#EDEDED] flex flex-col font-sans selection:bg-cyan-500/30 selection:text-[#00D9FF]">
         {children}
       </body>
     </html>
