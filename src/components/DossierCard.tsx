@@ -30,7 +30,7 @@ export default function DossierCard() {
           <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#00D9FF]/40 to-transparent shadow-[0_0_8px_rgba(0,217,255,0.5)] animate-scan pointer-events-none z-20" />
           
           <img
-            src="/IMG_2525.JPG"
+            src="/profile_photo.png"
             alt="Amine Mejjati Profile"
             className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.05] hover:grayscale-0 transition-all duration-700 pointer-events-auto"
           />
