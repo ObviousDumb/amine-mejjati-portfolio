@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Shield, Fingerprint } from "lucide-react";
 
 export default function DossierCard() {
+  const [isBatman, setIsBatman] = useState(false);
+
   return (
     <div className="dossier-book flex items-center justify-center gap-2 max-w-sm sm:max-w-md w-full mx-auto py-10 select-none">
       
@@ -25,7 +28,10 @@ export default function DossierCard() {
         </div>
 
         {/* Main Photo container */}
-        <div className="grow flex flex-col items-center justify-center my-3 relative overflow-hidden rounded bg-black/60 aspect-[4/5] w-full group">
+        <div 
+          onClick={() => setIsBatman(!isBatman)}
+          className="grow flex flex-col items-center justify-center my-3 relative overflow-hidden rounded bg-black/60 aspect-[4/5] w-full group cursor-pointer"
+        >
           {/* Scan line overlaying the image */}
           <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#00D9FF]/40 to-transparent shadow-[0_0_8px_rgba(0,217,255,0.5)] animate-scan pointer-events-none z-20" />
           
@@ -38,7 +44,9 @@ export default function DossierCard() {
           <img
             src="/batman_hover.webp"
             alt="Batman Mode"
-            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10"
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 z-10 ${
+              isBatman ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+            }`}
           />
         </div>
 
