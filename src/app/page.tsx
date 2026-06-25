@@ -87,11 +87,16 @@ export default function Home() {
     // Log visit securely without spamming or triggering on localhost
     if (typeof window !== "undefined") {
       const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-      const hasTracked = sessionStorage.getItem("hasTrackedVisit");
       
-      if (!isLocalhost && !hasTracked) {
+      const lastTracked = localStorage.getItem("lastTrackedVisit");
+      const now = Date.now();
+      const ONE_DAY = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+      
+      const shouldTrack = !lastTracked || (now - parseInt(lastTracked, 10) > ONE_DAY);
+      
+      if (!isLocalhost && shouldTrack) {
         fetch("/api/visit", { method: "POST" })
-          .then(() => sessionStorage.setItem("hasTrackedVisit", "true"))
+          .then(() => localStorage.setItem("lastTrackedVisit", now.toString()))
           .catch((err) => console.error("Error logging visit:", err));
       }
     }
