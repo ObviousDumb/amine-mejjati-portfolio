@@ -1,27 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
   try {
-    // 1. Extract visitor information from request headers
+    // 1. Extract visitor info from headers
     const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
     const userAgent = req.headers.get("user-agent") || "unknown";
     
-    // Geolocation headers (provided by modern Vercel/Netlify hosting environments)
+    // Geolocation headers (provided by hosting environments)
     const country = req.headers.get("x-vercel-ip-country") || "unknown";
     const region = req.headers.get("x-vercel-ip-country-region") || "unknown";
     const city = req.headers.get("x-vercel-ip-city") || "unknown";
 
-    const apiKey = process.env.RESEND_API_KEY;
-    const toEmail = process.env.NOTIFICATION_EMAIL || "amine.mejjati.pro@gmail.com";
+    const toEmail = process.env.NOTIFICATION_EMAIL || "aminemejjati007@gmail.com";
 
-    if (!apiKey) {
-      // Log warning to server console, but do not throw 500 error to visitor
+    if (!process.env.RESEND_API_KEY) {
       console.warn("RESEND_API_KEY environment variable is not configured. Visit notification email skipped.");
       return NextResponse.json({ success: false, message: "Email API key not configured." });
     }
 
-    // 2. Format the system report notification in our Gotham/Cyan visual aesthetic
-    const emailBody = {
+    // 2. Dispatch email notification using the official Resend SDK client
+    const { data, error } = await resend.emails.send({
       from: "Batcave Systems <onboarding@resend.dev>",
       to: toEmail,
       subject: `🚨 [PORTFOLIO VISIT] - Secure Access Detected`,
@@ -53,25 +54,14 @@ export async function POST(req: NextRequest) {
           </div>
         </div>
       `,
-    };
-
-    // 3. Dispatch the email using the Resend REST API
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify(emailBody),
     });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Resend API request failed:", errorText);
-      return NextResponse.json({ success: false, error: errorText });
+    if (error) {
+      console.error("Resend API error:", error);
+      return NextResponse.json({ success: false, error });
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, data });
   } catch (error: any) {
     console.error("Error dispatching visit notification:", error);
     return NextResponse.json({ success: false, error: error.message });
