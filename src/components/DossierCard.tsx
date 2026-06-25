@@ -25,18 +25,21 @@ export default function DossierCard() {
         </div>
 
         {/* Main Photo container */}
-        <div className="grow flex flex-col items-center justify-center my-3 relative overflow-hidden rounded border border-cyan-500/15 bg-black/60 aspect-[4/5] w-full">
+        <div className="grow flex flex-col items-center justify-center my-3 relative overflow-hidden rounded bg-black/60 aspect-[4/5] w-full group">
           {/* Scan line overlaying the image */}
           <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#00D9FF]/40 to-transparent shadow-[0_0_8px_rgba(0,217,255,0.5)] animate-scan pointer-events-none z-20" />
           
           <img
             src="/profile_photo.png"
             alt="Amine Mejjati Profile"
-            className="absolute inset-0 w-full h-full object-cover grayscale contrast-[1.05] hover:grayscale-0 transition-all duration-700 pointer-events-auto"
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 z-0"
           />
 
-          {/* Tactical border frame overlay */}
-          <div className="absolute inset-0 border border-cyan-500/15 pointer-events-none z-10" />
+          <img
+            src="/batman_hover.webp"
+            alt="Batman Mode"
+            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10"
+          />
         </div>
 
         {/* Bottom Footer details */}
